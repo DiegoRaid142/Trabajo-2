@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerColorChanger : MonoBehaviour
@@ -9,6 +11,13 @@ public class PlayerColorChanger : MonoBehaviour
         GameEvents.OnTargetDestroyed += TargetDestroyedHandler;
     }
 
+    void OnDisable()
+    {
+         GameEvents.OnTargetDestroyed -= TargetDestroyedHandler;
+      
+    }
+    
+    
     void TargetDestroyedHandler(GameItem gameItem)
     {
         if (gameItem == GameItem.Gem)
