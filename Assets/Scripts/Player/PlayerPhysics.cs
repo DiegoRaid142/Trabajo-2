@@ -10,6 +10,7 @@ public enum PlayerState
     Jumping,
     Firing,
     Hurt,
+    Stunt,
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -31,6 +32,8 @@ public class PlayerPhysics : MonoBehaviour
     [Header("Bullet")]
     [SerializeField] Transform bulletSpawner;
     [SerializeField] Bullet bulletPrefab;
+    [Header("Sprite")]
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     float horizontalSpeed;
     Vector2 velocity;
@@ -48,6 +51,10 @@ public class PlayerPhysics : MonoBehaviour
     State jumpingState;
     State firingState;
     State hurtState;
+    State stuntState;
+
+    WaitForSeconds StuntTimer;
+    WaitForSeconds stunttimer;
 
     void Awake()
     {
@@ -60,6 +67,7 @@ public class PlayerPhysics : MonoBehaviour
         jumpingState = CreateState(PlayerState.Jumping, JumpEnter, JumpUpdate, JumpExit);
         firingState = CreateState(PlayerState.Firing, FiringEnter, null, null);
         hurtState = CreateState(PlayerState.Hurt, HurtEnter, null, HurtExit);
+        stuntState = CreateState(PlayerState.Stunt, StuntEnter, null, StuntExit);
 
         stateMachine = new StateMachine();
         stateMachine.AddState(idleState);
@@ -67,6 +75,7 @@ public class PlayerPhysics : MonoBehaviour
         stateMachine.AddState(jumpingState);
         stateMachine.AddState(firingState);
         stateMachine.AddState(hurtState);
+        stateMachine.AddState(stuntState);
     }
 
     void OnEnable()
@@ -204,6 +213,18 @@ public class PlayerPhysics : MonoBehaviour
     {
         velocity = Vector2.zero;
         canJump = false;
+    }
+
+    void StuntEnter()
+    {
+        horizontalSpeed = 0.0f;
+        spriteRenderer.color = Color.yellow;
+
+    }
+
+    void StuntExit()
+    {
+        spriteRenderer.color = Color.white;
     }
 
     void ReadMoveInput()
