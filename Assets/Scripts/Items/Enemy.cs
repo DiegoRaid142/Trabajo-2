@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamagable
@@ -17,7 +18,7 @@ public class Enemy : MonoBehaviour, IDamagable
             {
                 flashWaitTimer = new WaitForSeconds(flashWait);
             }
-
+           
             return flashWaitTimer;
         }
     }
@@ -43,7 +44,7 @@ public class Enemy : MonoBehaviour, IDamagable
             spriteRenderer.color = Color.white;
             yield return FlashWaitTimer;
         }
-
+    
         enemyCollider.enabled = true;
     }
 }
